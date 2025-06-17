@@ -204,3 +204,20 @@ require('lazy').setup({
 }, {
   ui = { icons = vim.g.have_nerd_font and {} or { cmd = '⌘', config = '🛠', plugin = '🔌' } },
 })
+
+-- Custom indent settings
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+
+-- Function to remove trailing whitespace
+local function TrimWhitespace()
+    vim.cmd("%s/\\s\\+$//e")
+end
+
+-- // CUSTOM COMMANDS \\ --
+-- Command to call the function
+vim.api.nvim_create_user_command('TrimWhitespace', TrimWhitespace, {})
+
+-- The line beneath this is called `modeline`. See `:help modeline`
+-- vim: ts=2 sts=2 sw=2 et

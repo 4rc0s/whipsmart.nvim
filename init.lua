@@ -47,11 +47,6 @@ do
   vim.g.mapleader = ' '
   vim.g.maplocalleader = ' '
 
-  -- [[ Machine Specific Setup ]]
-  -- lua/local.lua is gitignored — each machine maintains its own copy.
-  -- See lua/local.lua.example for available options.
-  pcall(require, 'local')
-
   -- Set to true if you have a Nerd Font installed and selected in the terminal
   vim.g.have_nerd_font = true
 
@@ -118,6 +113,12 @@ do
     group = vim.api.nvim_create_augroup('whipsmart-highlight-yank', { clear = true }),
     callback = function() vim.hl.on_yank() end,
   })
+
+  -- [[ Machine Specific Setup ]]
+  -- lua/local.lua is gitignored — each machine maintains its own copy.
+  -- Loaded last so it can override any default set above.
+  -- See lua/local.lua.example for available options.
+  pcall(require, 'local')
 end
 
 -- ============================================================

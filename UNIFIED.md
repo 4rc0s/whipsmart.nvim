@@ -31,7 +31,17 @@ require 'whipsmart.plugins.debug'
 ```
 
 Available extras: `autopairs`, `debug` (DAP/Go), `gitsigns` (extended keymaps),
-`indent_line`, `lint`, `neo-tree`.
+`indent_line`, `lint`, `markdown` (render-markdown + obsidian), `neo-tree`.
+
+The `markdown` extra reads `vim.g.obsidian_vaults` from `local.lua` to configure
+obsidian.nvim; render-markdown loads unconditionally. Example `local.lua` snippet:
+```lua
+vim.g.obsidian_vaults = { { name = 'personal', path = '~/Obsidian/Main' } }
+```
+Then activate in `lua/custom/plugins/markdown.lua`:
+```lua
+require 'whipsmart.plugins.markdown'
+```
 
 ## 💻 Per-Machine Local Config
 Each machine maintains a `lua/local.lua` that is **gitignored** and never committed.
@@ -60,6 +70,9 @@ cp ~/.config/nvim/lua/local.lua.example ~/.config/nvim/lua/local.lua
 - [x] Document LSP server setup and opt-in extras workflow.
 - [x] Replace hostname detection with gitignored lua/local.lua per-machine overrides.
 - [x] Port hecate config: LSP servers, formatters, treesitter parsers, custom plugins.
+- [x] Fix `local.lua` load order — `pcall(require, 'local')` moved to end of Section 1 so it can override defaults.
+- [x] Add markdown opt-in extra (render-markdown, obsidian, blink.compat).
+- [x] Migrate roci to whipsmart.
 - [ ] Migrate vera and tau to whipsmart (create their lua/local.lua files).
 - [ ] Add machine-specific UI toggles for terminal vs. GUI Neovim (via local.lua).
 - [ ] Centralize snippet collections.

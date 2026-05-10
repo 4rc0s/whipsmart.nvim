@@ -50,29 +50,76 @@ Whipsmart also exposes the raw `vim.pack` primitives:
 
 ```text
 ~/.config/nvim/
-├── init.lua                # Core options, keymaps, and modular loader
+├── init.lua                # Core options, keymaps, and plugin loader
 ├── UNIFIED.md              # The Grand Unified roadmap and local instructions
 ├── nvim-pack-lock.json     # Plugin lockfile (Tracked in Git)
 └── lua/
-    └── plugins/            # Individual plugin modules
-        ├── core_ui.lua     # Which-key, Colorscheme, Oil, Mini.nvim
-        ├── lsp.lua         # LSP, Mason, and Tooling
-        ├── telescope.lua   # Fuzzy Finding
-        ├── cmp.lua         # Autocompletion and Snippets
-        ├── treesitter.lua  # Syntax Highlighting
-        ├── format.lua      # Conform.nvim Formatting
-        └── pack_manager.lua # pack-manager.nvim UI setup
+    ├── plugins/            # Core plugin modules (explicit load order in init.lua)
+    │   ├── pack_manager.lua # pack-manager.nvim UI setup
+    │   ├── core_ui.lua     # Which-key, Colorscheme, Oil, Mini.nvim
+    │   ├── telescope.lua   # Fuzzy Finding
+    │   ├── lsp.lua         # LSP, Mason, and Tooling
+    │   ├── cmp.lua         # Autocompletion and Snippets
+    │   ├── treesitter.lua  # Syntax Highlighting
+    │   └── format.lua      # Conform.nvim Formatting
+    ├── whipsmart/          # Opt-in extras (not loaded by default)
+    │   ├── health.lua      # :checkhealth whipsmart
+    │   └── plugins/        # autopairs, debug, gitsigns+, indent, lint, neo-tree
+    └── custom/
+        └── plugins/        # Your personal plugins — no merge conflicts here
 ```
 
 ## 💻 Customization
 
-### Adding a New Plugin
-To add a plugin, create a new `.lua` file in `lua/plugins/`. Whipsmart will automatically detect and load it.
+### Adding a Personal Plugin
+Drop a `.lua` file in `lua/custom/plugins/` — it is loaded automatically on startup and will never conflict with upstream changes.
 
-Example `lua/plugins/harpoon.lua`:
+Example `lua/custom/plugins/harpoon.lua`:
 ```lua
-vim.pack.add({ "https://github.com/ThePrimeagen/harpoon" })
--- Your configuration here
+vim.pack.add { 'https://github.com/ThePrimeagen/harpoon' }
+require('harpoon').setup {}
+```
+
+### Adding a Core Plugin
+To add a plugin to the core `lua/plugins/` layer, create the file and then register it in the explicit loader list in `init.lua` (Section 2):
+
+```lua
+for _, mod in ipairs {
+  ...
+  'plugins.my_new_plugin',  -- add here
+} do
+```
+
+### Adding LSP Servers
+LSP configuration lives in `lua/plugins/lsp.lua` and has two separate lists that must both be updated:
+
+1. **`servers`** — uses **lspconfig names** (passed to `vim.lsp.config` / `vim.lsp.enable`):
+   ```lua
+   local servers = {
+     lua_ls = { ... },   -- lspconfig name
+     pyright = {},       -- lspconfig name
+   }
+   ```
+
+2. **`mason_tools`** — uses **Mason registry names** (passed to `mason-tool-installer`):
+   ```lua
+   local mason_tools = {
+     'lua-language-server',  -- Mason name for lua_ls
+     'pyright',              -- Mason name (happens to match here)
+     'stylua',               -- formatter, Mason name
+   }
+   ```
+
+> **Note:** lspconfig names and Mason names often differ. Look up the correct Mason name at [mason-registry](https://mason-registry.dev/registry/list) and the lspconfig name in the [lspconfig server list](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md).
+
+### Enabling Format-on-Save
+In `lua/plugins/format.lua`, add filetypes to `fmt_on_save_fts`:
+
+```lua
+local fmt_on_save_fts = {
+  lua = true,
+  go  = true,
+}
 ```
 
 ### Machine-Specific Settings

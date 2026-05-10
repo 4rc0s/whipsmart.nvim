@@ -9,7 +9,7 @@ vim.pack.add { gh 'j-hui/fidget.nvim' }
 require('fidget').setup {}
 
 vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+  group = vim.api.nvim_create_augroup('whipsmart-lsp-attach', { clear = true }),
   callback = function(event)
     local map = function(keys, func, desc, mode)
       mode = mode or 'n'
@@ -22,7 +22,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
     if client and client:supports_method('textDocument/documentHighlight', event.buf) then
-      local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
+      local highlight_augroup = vim.api.nvim_create_augroup('whipsmart-lsp-highlight', { clear = false })
       vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
         buffer = event.buf,
         group = highlight_augroup,
@@ -34,10 +34,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
         callback = vim.lsp.buf.clear_references,
       })
       vim.api.nvim_create_autocmd('LspDetach', {
-        group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+        group = vim.api.nvim_create_augroup('whipsmart-lsp-detach', { clear = true }),
         callback = function(event2)
           vim.lsp.buf.clear_references()
-          vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+          vim.api.nvim_clear_autocmds { group = 'whipsmart-lsp-highlight', buffer = event2.buf }
         end,
       })
     end
@@ -75,7 +75,6 @@ local servers = {
 vim.pack.add {
   gh 'neovim/nvim-lspconfig',
   gh 'mason-org/mason.nvim',
-  gh 'mason-org/mason-lspconfig.nvim',
   gh 'WhoIsSethDaniel/mason-tool-installer.nvim',
 }
 

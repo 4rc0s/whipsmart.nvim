@@ -148,13 +148,21 @@ do
     end,
   })
 
-  -- Load all modules in lua/plugins/
-  local plugin_dir = vim.fn.stdpath('config') .. '/lua/plugins'
-  local files = vim.fn.globpath(plugin_dir, '*.lua', false, true)
-  for _, file in ipairs(files) do
-    local module_name = 'plugins.' .. vim.fn.fnamemodify(file, ':t:r')
-    require(module_name)
+  -- Load plugin modules in explicit order
+  for _, mod in ipairs {
+    'plugins.pack_manager',
+    'plugins.core_ui',
+    'plugins.telescope',
+    'plugins.lsp',
+    'plugins.cmp',
+    'plugins.treesitter',
+    'plugins.format',
+  } do
+    require(mod)
   end
+
+  -- Load user custom plugins from lua/custom/plugins/
+  require 'custom.plugins'
 end
 
 -- vim: ts=2 sts=2 sw=2 et

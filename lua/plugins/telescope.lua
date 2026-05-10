@@ -37,7 +37,7 @@ vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommand
 vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('telescope-lsp-attach', { clear = true }),
+  group = vim.api.nvim_create_augroup('whipsmart-telescope-lsp-attach', { clear = true }),
   callback = function(event)
     local buf = event.buf
     vim.keymap.set('n', 'grr', builtin.lsp_references, { buffer = buf, desc = '[G]oto [R]eferences' })

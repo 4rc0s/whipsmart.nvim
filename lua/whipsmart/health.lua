@@ -2,6 +2,7 @@
 --
 -- This file is not required for your own configuration,
 -- but helps people determine if their system is setup correctly.
+-- Run :checkhealth whipsmart to use it.
 --
 --]]
 
@@ -35,7 +36,7 @@ end
 
 return {
   check = function()
-    vim.health.start 'kickstart.nvim'
+    vim.health.start 'whipsmart.nvim'
 
     vim.health.info [[NOTE: Not every warning is a 'must-fix' in `:checkhealth`
 

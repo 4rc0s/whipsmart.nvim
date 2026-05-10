@@ -6,14 +6,15 @@ local function gh(repo) return 'https://github.com/' .. repo end
 -- ============================================================
 
 vim.pack.add { gh 'stevearc/conform.nvim' }
+
+-- Add filetypes here to enable format-on-save for them, e.g. lua = true
+local fmt_on_save_fts = {}
+
 require('conform').setup {
   notify_on_error = false,
   format_on_save = function(bufnr)
-    local enabled_filetypes = {}
-    if enabled_filetypes[vim.bo[bufnr].filetype] then
-      return { timeout_ms = 500 }
-    else
-      return nil
+    if fmt_on_save_fts[vim.bo[bufnr].filetype] then
+      return { timeout_ms = 500, lsp_format = 'fallback' }
     end
   end,
   default_format_opts = { lsp_format = 'fallback' },

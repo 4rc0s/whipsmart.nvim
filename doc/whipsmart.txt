@@ -1,0 +1,26 @@
+================================================================================
+INTRODUCTION                                                  *whipsmart.nvim*
+
+Whipsmart.nvim is a modular, native-first Neovim configuration built on the
+Neovim 0.12+ `vim.pack` system. It evolved from kickstart.nvim into a
+machine-aware, reproducible starting point.
+
+                                                            *whipsmart-is-not*
+It is not:
+- A complete framework bundling every plugin under the sun
+- A distro you passively consume
+
+                                                                *whipsmart-is*
+It is:
+- A clean, well-documented foundation with the most common IDE features:
+    - autocompletion (blink.cmp + LuaSnip)
+    - LSP with Mason tooling
+    - goto-definition, references, fuzzy finding (Telescope)
+    - syntax highlighting (nvim-treesitter)
+    - git integration (gitsigns)
+- A place to build your own config from, with a modular structure you can
+  extend in lua/custom/plugins/ without merge conflicts.
+
+Run `:checkhealth whipsmart` to verify your environment is set up correctly.
+
+ vim:tw=78:ts=8:ft=help:norl:

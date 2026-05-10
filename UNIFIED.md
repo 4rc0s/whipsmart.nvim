@@ -33,11 +33,21 @@ require 'whipsmart.plugins.debug'
 Available extras: `autopairs`, `debug` (DAP/Go), `gitsigns` (extended keymaps),
 `indent_line`, `lint`, `neo-tree`.
 
-## 💻 Machine Detection
-We use `vim.uv.os_gethostname()` in `init.lua` to toggle settings.
-Current machines:
-- **vera**: (Primary Linux workstation) - High-res font, full LSP suite.
-- **tau**: Linux workstation.
+## 💻 Per-Machine Local Config
+Each machine maintains a `lua/local.lua` that is **gitignored** and never committed.
+`init.lua` loads it at startup via `pcall(require, 'local')` — silently skipped if absent.
+
+Use it for anything machine-specific: font size, colorscheme overrides, GUI settings,
+local interpreter paths, or enabling whipsmart opt-in extras only on that machine.
+
+See `lua/local.lua.example` for a documented template.
+
+**Setup on a new machine:**
+```sh
+git clone git@github.com:4rc0s/whipsmart.nvim.git ~/.config/nvim
+cp ~/.config/nvim/lua/local.lua.example ~/.config/nvim/lua/local.lua
+# Edit lua/local.lua for this machine, then launch nvim
+```
 
 ## 🗺️ The Grand Unified Roadmap
 - [x] Rename project to **whipsmart.nvim**.
@@ -48,8 +58,10 @@ Current machines:
 - [x] Explicit plugin load order in `init.lua`.
 - [x] Decouple Mason package names from lspconfig server names.
 - [x] Document LSP server setup and opt-in extras workflow.
-- [ ] Merge legacy plugins from other machine forks.
-- [ ] Add machine-specific UI toggles for terminal vs. GUI Neovim.
+- [x] Replace hostname detection with gitignored lua/local.lua per-machine overrides.
+- [x] Port hecate config: LSP servers, formatters, treesitter parsers, custom plugins.
+- [ ] Migrate vera and tau to whipsmart (create their lua/local.lua files).
+- [ ] Add machine-specific UI toggles for terminal vs. GUI Neovim (via local.lua).
 - [ ] Centralize snippet collections.
 
 ## 🛠️ Git Maintenance

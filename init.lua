@@ -48,14 +48,9 @@ do
   vim.g.maplocalleader = ' '
 
   -- [[ Machine Specific Setup ]]
-  local hostname = vim.uv.os_gethostname()
-  if hostname == 'vera' then
-    -- Vera specific settings
-  elseif hostname == 'tau' then
-    -- tau specific settings
-  elseif hostname == 'hecate' then
-    -- hecate specific settings
-  end
+  -- lua/local.lua is gitignored — each machine maintains its own copy.
+  -- See lua/local.lua.example for available options.
+  pcall(require, 'local')
 
   -- Set to true if you have a Nerd Font installed and selected in the terminal
   vim.g.have_nerd_font = true

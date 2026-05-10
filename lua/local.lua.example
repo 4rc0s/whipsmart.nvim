@@ -1,0 +1,25 @@
+-- lua/local.lua — machine-specific overrides
+--
+-- Copy this file to lua/local.lua on each machine. It is gitignored and
+-- never committed, so each machine can have its own version.
+--
+-- This file is loaded at startup via pcall(require, 'local') in init.lua.
+-- It runs after global options are set, so anything here overrides the defaults.
+
+-- Example: GUI font (for Neovide, etc.)
+-- vim.o.guifont = 'JetBrainsMono Nerd Font:h13'
+
+-- Example: disable Nerd Font if the terminal doesn't support it
+-- vim.g.have_nerd_font = false
+
+-- Example: machine-specific colorscheme
+-- vim.cmd.colorscheme 'catppuccin'
+
+-- Example: larger scroll offset on a big monitor
+-- vim.o.scrolloff = 15
+
+-- Example: use a local Python interpreter
+-- vim.g.python3_host_prog = '/usr/local/bin/python3'
+
+-- Example: enable a whipsmart opt-in extra only on this machine
+-- require 'whipsmart.plugins.debug'

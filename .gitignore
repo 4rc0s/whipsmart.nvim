@@ -12,3 +12,7 @@ spell/
 # nvim-pack-lock.json
 
 .DS_Store
+
+# Per-machine local overrides — each machine maintains its own copy, never committed.
+# See lua/local.lua.example for available options.
+lua/local.lua

@@ -98,8 +98,14 @@ do
   vim.g.mapleader = ' '
   vim.g.maplocalleader = ' '
 
+  -- [[ Machine Specific Setup ]]
+  local hostname = vim.uv.os_gethostname()
+  if hostname == 'vera' then
+    -- Vera specific settings
+  end
+
   -- Set to true if you have a Nerd Font installed and selected in the terminal
-  vim.g.have_nerd_font = false
+  vim.g.have_nerd_font = true
 
   -- [[ Setting options ]]
   --  See `:help vim.o`
@@ -266,6 +272,13 @@ do
   --  To update plugins, run
   --    :lua vim.pack.update()
   --
+  --  For a more ergonomic workflow, we can map these to keybinds:
+  --    <leader>ps to fetch updates (Sync)
+  --    <leader>pi to see current status (Inspect)
+  --  In the update window, press `w` to apply changes and `q` to quit.
+  vim.keymap.set('n', '<leader>ps', vim.pack.update, { desc = '[P]ackage [S]ync' })
+  vim.keymap.set('n', '<leader>pi', function() vim.pack.update(nil, { offline = true }) end, { desc = '[P]ackage [I]nspect' })
+  --
   --
   --  Throughout the rest of the config there will be examples
   --  of how to install and configure plugins using `vim.pack`.
@@ -395,6 +408,13 @@ do
   -- Like many other themes, this one has different styles, and you could load
   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
   vim.cmd.colorscheme 'tokyonight-night'
+
+  -- File explorer that lets you edit the filesystem like a buffer
+  vim.pack.add { gh 'stevearc/oil.nvim' }
+  require('oil').setup {
+    view_options = { show_hidden = true },
+  }
+  vim.keymap.set('n', '-', '<cmd>Oil<cr>', { desc = 'Open parent directory' })
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }

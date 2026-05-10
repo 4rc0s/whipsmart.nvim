@@ -36,3 +36,6 @@ vim.api.nvim_create_autocmd('FileType', {
     end
   end,
 })
+
+-- Rainbow delimiters
+vim.pack.add { gh 'HiPhish/rainbow-delimiters.nvim' }

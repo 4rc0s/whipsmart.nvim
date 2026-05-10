@@ -57,6 +57,10 @@ vim.keymap.set('n', '-', '<cmd>Oil<cr>', { desc = 'Open parent directory' })
 vim.pack.add { gh 'folke/todo-comments.nvim' }
 require('todo-comments').setup { signs = false }
 
+-- Indent guides
+vim.pack.add { gh 'lukas-reineke/indent-blankline.nvim' }
+require('ibl').setup {}
+
 -- mini.nvim modules
 vim.pack.add { gh 'nvim-mini/mini.nvim' }
 require('mini.ai').setup {

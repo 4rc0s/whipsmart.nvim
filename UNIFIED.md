@@ -30,8 +30,8 @@ To enable one, require it from a file in `lua/custom/plugins/`:
 require 'whipsmart.plugins.debug'
 ```
 
-Available extras: `autopairs`, `debug` (DAP/Go), `gitsigns` (extended keymaps),
-`indent_line`, `lint`, `markdown` (render-markdown + obsidian), `neo-tree`.
+Available extras: `debug` (DAP/Go), `gitsigns` (extended keymaps),
+`lint`, `markdown` (render-markdown + obsidian), `neo-tree`.
 
 The `markdown` extra reads `vim.g.obsidian_vaults` from `local.lua` to configure
 obsidian.nvim; render-markdown loads unconditionally. Example `local.lua` snippet:
@@ -84,7 +84,11 @@ For a "ready-to-code" experience on a fresh install, run this command to install
 nvim --headless +PackUpdate +TSUpdateSync +qa
 ```
 
-### 4. LSP Server Troubleshooting
+### 4. LSP Server Troubleshooting & Runtime-Awareness
+Whipsmart is **runtime-aware**. It only attempts to install LSPs for languages it finds in your `$PATH`. 
+- If `go` is missing, `gopls` will be skipped without error.
+- If you install a tool later (e.g. via `mise` or `brew`), run `:MasonToolsInstall` to sync.
+
 LSP configuration requires two entries in `lua/plugins/lsp.lua`:
 1. The **lspconfig name** in the `servers` table (controls the logic).
 2. The **Mason registry name** in the `mason_tools` list (controls the installation).
@@ -105,6 +109,7 @@ LSP configuration requires two entries in `lua/plugins/lsp.lua`:
 - [x] Add markdown opt-in extra (render-markdown, obsidian, blink.compat).
 - [x] Migrate roci to whipsmart.
 - [x] Migrate orca to whipsmart (machine-specific scrolloff and catppuccin in local.lua).
+- [x] Migrate cygnus to whipsmart (machine-specific keymaps and plugins mainlined).
 - [x] Unify Go configuration (Tabs, width 4) as a global standard in init.lua.
 - [x] Unify Python configuration (Spaces, width 4, textwidth 88) in init.lua.
 - [ ] Migrate vera and tau to whipsmart (create their lua/local.lua files).

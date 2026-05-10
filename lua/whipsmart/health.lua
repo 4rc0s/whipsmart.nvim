@@ -22,32 +22,51 @@ end
 
 local check_external_reqs = function()
   -- Basic utils: `git`, `make`, `unzip`
-  for _, exe in ipairs { 'git', 'make', 'unzip', 'rg' } do
+  for _, exe in ipairs { 'git', 'make', 'unzip', 'rg', 'fd' } do
     local is_executable = vim.fn.executable(exe) == 1
     if is_executable then
       vim.health.ok(string.format("Found executable: '%s'", exe))
     else
-      vim.health.warn(string.format("Could not find executable: '%s'", exe))
+      vim.health.warn(string.format("Could not find executable: '%s'. Some features may be limited.", exe))
     end
   end
 
   return true
 end
 
+local check_runtimes = function()
+  local runtimes = {
+    { bin = 'go', name = 'Go' },
+    { bin = 'node', name = 'Node.js' },
+    { bin = 'python3', name = 'Python 3' },
+    { bin = 'cargo', name = 'Rust/Cargo' },
+    { bin = 'gcc', name = 'C Compiler' },
+    { bin = 'mise', name = 'Mise (Tool Manager)' },
+  }
+  for _, rt in ipairs(runtimes) do
+    if vim.fn.executable(rt.bin) == 1 then
+      vim.health.ok(string.format("Found runtime: %s", rt.name))
+    else
+      vim.health.info(string.format("Optional runtime missing: %s", rt.name))
+    end
+  end
+end
+
 return {
   check = function()
     vim.health.start 'whipsmart.nvim'
 
-    vim.health.info [[NOTE: Not every warning is a 'must-fix' in `:checkhealth`
-
-  Fix only warnings for plugins and languages you intend to use.
-    Mason will give warnings for languages that are not installed.
-    You do not need to install, unless you want to use those languages!]]
+    vim.health.info [[NOTE: Not every warning is a 'must-fix'.
+    
+    Whipsmart is runtime-aware: it only attempts to install LSPs for languages 
+    found in your PATH. If you install a new language (e.g. via 'mise'), 
+    run :MasonToolsInstall to pick up the new tools.]]
 
     local uv = vim.uv or vim.loop
     vim.health.info('System Information: ' .. vim.inspect(uv.os_uname()))
 
     check_version()
     check_external_reqs()
+    check_runtimes()
   end,
 }

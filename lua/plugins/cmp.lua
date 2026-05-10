@@ -18,3 +18,7 @@ require('blink.cmp').setup {
   fuzzy = { implementation = 'prefer_rust' },
   signature = { enabled = true },
 }
+
+-- Autopairs
+vim.pack.add { gh 'windwp/nvim-autopairs' }
+require('nvim-autopairs').setup {}

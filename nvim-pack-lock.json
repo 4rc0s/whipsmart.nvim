@@ -26,6 +26,10 @@
       "rev": "84a4987ff36798c2fc1169cbaff67960aed9776f",
       "src": "https://github.com/NMAC427/guess-indent.nvim"
     },
+    "indent-blankline.nvim": {
+      "rev": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03",
+      "src": "https://github.com/lukas-reineke/indent-blankline.nvim"
+    },
     "mason-lspconfig.nvim": {
       "rev": "51feb0ada33d18f3c5c71ffb46005dbf8b33bef4",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"
@@ -45,6 +49,10 @@
     "nvim": {
       "rev": "426dbebe06b5c69fd846ceb17b42e12f890aedf1",
       "src": "https://github.com/catppuccin/nvim"
+    },
+    "nvim-autopairs": {
+      "rev": "7b9923abad60b903ece7c52940e1321d39eccc79",
+      "src": "https://github.com/windwp/nvim-autopairs"
     },
     "nvim-lspconfig": {
       "rev": "451d4ef9abd4f0f08e379ef0d55d1c391b6125a7",
@@ -70,6 +78,10 @@
     "plenary.nvim": {
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
+    },
+    "rainbow-delimiters.nvim": {
+      "rev": "08783ec022e7ddefe0f12a16f1ac4968f55478b0",
+      "src": "https://github.com/HiPhish/rainbow-delimiters.nvim"
     },
     "rustaceanvim": {
       "rev": "88575b98bb9937fb9983ddec5e532b67e75ce677",
@@ -99,6 +111,10 @@
     "trouble.nvim": {
       "rev": "bd67efe408d4816e25e8491cc5ad4088e708a69a",
       "src": "https://github.com/folke/trouble.nvim"
+    },
+    "vim-python-pep8-indent": {
+      "rev": "60ba5e11a61618c0344e2db190210145083c91f8",
+      "src": "https://github.com/Vimjas/vim-python-pep8-indent"
     },
     "which-key.nvim": {
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",

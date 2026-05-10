@@ -57,3 +57,14 @@ Current machines:
 > This project has diverged significantly from its kickstart.nvim origin in
 > architecture and philosophy. Upstream syncing from kickstart.nvim is no
 > longer applicable — whipsmart.nvim is its own project.
+
+### Tracking Key Upstream Dependencies
+
+**`pack-manager.nvim`** (`https://github.com/mplusp/pack-manager.nvim`) is the
+UI layer over `vim.pack` and the most architecturally significant third-party
+dependency. Watch this repo for new features, API changes, and bug fixes.
+
+To pick up an improvement:
+1. Check the [pack-manager.nvim releases/commits](https://github.com/mplusp/pack-manager.nvim/commits/main) for relevant changes.
+2. Run `<leader>ps` to pull the latest revision and update `nvim-pack-lock.json`.
+3. Commit the updated lockfile to pin the new version.

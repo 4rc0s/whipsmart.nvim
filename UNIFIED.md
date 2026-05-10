@@ -59,6 +59,37 @@ cp ~/.config/nvim/lua/local.lua.example ~/.config/nvim/lua/local.lua
 # Edit lua/local.lua for this machine, then launch nvim
 ```
 
+## 🚀 Migration & New Machine Guide
+
+When moving a new machine to Whipsmart, follow these lessons learned from the `orca` migration:
+
+### 1. The Migration Workflow
+If coming from a `lazy.nvim` or single-file config:
+- **Core Settings:** Move personal preferences (colorschemes, font sizes, scrolloff) to `lua/local.lua`.
+- **Custom Plugins:** Do not edit the core `lua/plugins/` files. Instead, create a new file in `lua/custom/plugins/<name>.lua` for each additional plugin:
+  ```lua
+  -- Example: lua/custom/plugins/harpoon.lua
+  vim.pack.add { 'https://github.com/ThePrimeagen/harpoon' }
+  require('harpoon').setup({})
+  ```
+
+### 2. Standardize vs. Localize
+Before adding a setting to `local.lua`, ask: *"Would every machine benefit from this?"*
+- **YES (Global):** Add to `init.lua` or `lua/plugins/`. (Example: Our unified Go indentation standard).
+- **NO (Local):** Keep in `lua/local.lua`. (Example: Machine-specific `scrolloff` or `catppuccin` preference).
+
+### 3. Headless Bootstrapping
+For a "ready-to-code" experience on a fresh install, run this command to install all plugins and treesitter parsers without opening the UI:
+```bash
+nvim --headless +PackUpdate +TSUpdateSync +qa
+```
+
+### 4. LSP Server Troubleshooting
+LSP configuration requires two entries in `lua/plugins/lsp.lua`:
+1. The **lspconfig name** in the `servers` table (controls the logic).
+2. The **Mason registry name** in the `mason_tools` list (controls the installation).
+*Note: These names often differ (e.g., `ts_ls` vs `typescript-language-server`).*
+
 ## 🗺️ The Grand Unified Roadmap
 - [x] Rename project to **whipsmart.nvim**.
 - [x] Refactor into a modular architecture.
@@ -73,6 +104,8 @@ cp ~/.config/nvim/lua/local.lua.example ~/.config/nvim/lua/local.lua
 - [x] Fix `local.lua` load order — `pcall(require, 'local')` moved to end of Section 1 so it can override defaults.
 - [x] Add markdown opt-in extra (render-markdown, obsidian, blink.compat).
 - [x] Migrate roci to whipsmart.
+- [x] Migrate orca to whipsmart (machine-specific scrolloff and catppuccin in local.lua).
+- [x] Unify Go configuration (Tabs, width 4) as a global standard in init.lua.
 - [ ] Migrate vera and tau to whipsmart (create their lua/local.lua files).
 - [ ] Add machine-specific UI toggles for terminal vs. GUI Neovim (via local.lua).
 - [ ] Centralize snippet collections.

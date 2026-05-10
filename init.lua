@@ -114,7 +114,23 @@ do
     callback = function() vim.hl.on_yank() end,
   })
 
+  -- Go indentation (Tabs, width 4)
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'go',
+    group = vim.api.nvim_create_augroup('whipsmart-go-indent', { clear = true }),
+    callback = function()
+      vim.bo.expandtab = false
+      vim.bo.tabstop = 4
+      vim.bo.shiftwidth = 4
+    end,
+  })
+
   -- [[ Machine Specific Setup ]]
+  local hostname = vim.uv.os_gethostname()
+  if hostname == 'orca' then
+    -- Specific to this machine if needed in the future
+  end
+
   -- lua/local.lua is gitignored — each machine maintains its own copy.
   -- Loaded last so it can override any default set above.
   -- See lua/local.lua.example for available options.

@@ -1,4 +1,4 @@
-# kickstart.nvim
+# whipsmart.nvim
 
 ## Introduction
 

@@ -16,7 +16,7 @@ Whipsmart.nvim is a modular, native-first Neovim configuration built on top of t
 
 Ensure you are running **Neovim 0.12+** (nightly or latest stable). You will also need:
 - `git`, `make`, `unzip`, `gcc`
-- `tree-sitter-cli` (Recommended: `cargo install tree-sitter-cli`)
+- `tree-sitter-cli` (Arch: `pacman -S tree-sitter-cli` | Others: `cargo install tree-sitter-cli`)
 - [ripgrep](https://github.com/BurntSushi/ripgrep) and [fd](https://github.com/sharkdp/fd)
 - A [Nerd Font](https://www.nerdfonts.com/) (recommended)
 

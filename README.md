@@ -35,6 +35,21 @@ On first launch, Mason will install the default LSP servers and formatters. Once
 :checkhealth whipsmart
 ```
 
+### 3. Register Your Machine
+
+Open `init.lua` and add a branch for your hostname in the **Machine Specific Setup** block:
+
+```lua
+local hostname = vim.uv.os_gethostname()
+if hostname == 'vera' then
+  -- existing machine
+elseif hostname == 'your-hostname' then
+  -- machine-specific overrides (font size, LSP servers, etc.)
+end
+```
+
+Also add the machine to the list in `UNIFIED.md` under **Machine Detection**. Then push so the other machines stay in sync.
+
 ## 🛠️ Package Management
 
 Whipsmart provides two ways to manage your plugins:

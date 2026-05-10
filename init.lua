@@ -125,6 +125,18 @@ do
     end,
   })
 
+  -- Python indentation (Spaces, width 4, Black/Ruff textwidth)
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'python',
+    group = vim.api.nvim_create_augroup('whipsmart-python-indent', { clear = true }),
+    callback = function()
+      vim.bo.expandtab = true
+      vim.bo.tabstop = 4
+      vim.bo.shiftwidth = 4
+      vim.bo.textwidth = 88
+    end,
+  })
+
   -- [[ Machine Specific Setup ]]
   local hostname = vim.uv.os_gethostname()
   if hostname == 'orca' then

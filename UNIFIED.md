@@ -106,6 +106,7 @@ LSP configuration requires two entries in `lua/plugins/lsp.lua`:
 - [x] Migrate roci to whipsmart.
 - [x] Migrate orca to whipsmart (machine-specific scrolloff and catppuccin in local.lua).
 - [x] Unify Go configuration (Tabs, width 4) as a global standard in init.lua.
+- [x] Unify Python configuration (Spaces, width 4, textwidth 88) in init.lua.
 - [ ] Migrate vera and tau to whipsmart (create their lua/local.lua files).
 - [ ] Add machine-specific UI toggles for terminal vs. GUI Neovim (via local.lua).
 - [ ] Centralize snippet collections.

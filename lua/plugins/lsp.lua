@@ -70,6 +70,32 @@ local servers = {
     end,
     settings = { Lua = { format = { enable = false } } },
   },
+  gopls = {},
+  basedpyright = {
+    settings = {
+      basedpyright = {
+        analysis = {
+          autoSearchPaths = true,
+          useLibraryCodeForTypes = true,
+          diagnosticMode = 'openFilesOnly',
+        },
+      },
+    },
+    before_init = function(_, config)
+      local root_dir = config.root_dir
+      if root_dir then
+        local venv_path = root_dir .. '/.venv'
+        if vim.fn.isdirectory(venv_path) == 1 then
+          local python_path = venv_path .. '/bin/python'
+          if vim.fn.filereadable(python_path) == 1 then
+            config.settings.python = config.settings.python or {}
+            config.settings.python.pythonPath = python_path
+          end
+        end
+      end
+    end,
+  },
+  ts_ls = {},
 }
 
 vim.pack.add {
@@ -82,6 +108,13 @@ vim.pack.add {
 local mason_tools = {
   'lua-language-server',
   'stylua',
+  'gopls',
+  'goimports',
+  'basedpyright',
+  'ruff',
+  'typescript-language-server',
+  'prettierd',
+  'rust-analyzer',  -- installed by Mason, managed by rustaceanvim (see custom/plugins/rust.lua)
 }
 
 require('mason').setup {}
@@ -91,3 +124,26 @@ for name, server in pairs(servers) do
   vim.lsp.config(name, server)
   vim.lsp.enable(name)
 end
+
+-- System-installed LSPs (not managed by Mason)
+if vim.fn.executable 'nimls' == 1 then
+  vim.lsp.config('nimls', {})
+  vim.lsp.enable 'nimls'
+end
+
+if vim.fn.executable 'gleam' == 1 then
+  vim.lsp.config('gleam', {})
+  vim.lsp.enable 'gleam'
+end
+
+-- Gleam indentation
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('whipsmart-gleam-indent', { clear = true }),
+  pattern = 'gleam',
+  callback = function()
+    vim.bo.shiftwidth = 2
+    vim.bo.tabstop = 2
+    vim.bo.softtabstop = 2
+    vim.bo.expandtab = true
+  end,
+})

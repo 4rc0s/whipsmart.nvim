@@ -53,6 +53,8 @@ do
     -- Vera specific settings
   elseif hostname == 'tau' then
     -- tau specific settings
+  elseif hostname == 'hecate' then
+    -- hecate specific settings
   end
 
   -- Set to true if you have a Nerd Font installed and selected in the terminal
@@ -61,6 +63,7 @@ do
   -- [[ Setting options ]]
   --  See `:help vim.o`
   vim.o.number = true
+  vim.o.relativenumber = true
   vim.o.mouse = 'a'
   vim.o.showmode = false
   vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
@@ -79,6 +82,9 @@ do
   vim.o.cursorline = true
   vim.o.scrolloff = 10
   vim.o.confirm = true
+  vim.o.colorcolumn = '120'
+  vim.o.expandtab = false
+  vim.opt.isfname:append '@-@'
 
   -- [[ Basic Keymaps ]]
   --  See `:help vim.keymap.set()`
@@ -100,6 +106,9 @@ do
   }
 
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+  vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+  vim.keymap.set('n', '[d', function() vim.diagnostic.jump { count = -1 } end, { desc = 'Go to previous [D]iagnostic' })
+  vim.keymap.set('n', ']d', function() vim.diagnostic.jump { count = 1 } end, { desc = 'Go to next [D]iagnostic' })
   vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
   -- Split navigation

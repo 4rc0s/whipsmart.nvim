@@ -64,3 +64,7 @@ vim.keymap.set('n', '<leader>s/', function()
 end, { desc = '[S]earch [/] in Open Files' })
 
 vim.keymap.set('n', '<leader>sn', function() builtin.find_files { cwd = vim.fn.stdpath 'config' } end, { desc = '[S]earch [N]eovim files' })
+vim.keymap.set('n', '<C-p>', builtin.git_files, { desc = 'Search [G]it Files' })
+vim.keymap.set('n', '<leader>pf', function()
+  builtin.grep_string { search = vim.fn.input 'Grep > ' }
+end, { desc = '[P]roject [F]ind (grep with input)' })

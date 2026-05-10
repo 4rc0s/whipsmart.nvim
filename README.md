@@ -25,8 +25,14 @@ Ensure you are running **Neovim 0.12+** (nightly or latest stable). You will als
 # Clone your fork (replace <your_username> with your GitHub handle)
 git clone https://github.com/<your_username>/whipsmart.nvim.git ~/.config/nvim
 
-# Start Neovim
+# Start Neovim — plugins install automatically on first launch
 nvim
+```
+
+On first launch, Mason will install the default LSP servers and formatters. Once complete, verify your environment:
+
+```vim
+:checkhealth whipsmart
 ```
 
 ## 🛠️ Package Management

@@ -13,13 +13,25 @@ We use **`pack-manager.nvim`** for a Lazy-like UI experience:
 
 ## 🏗️ Modular Architecture
 Plugin configurations are split into logically organized files in `lua/plugins/`:
+- `pack_manager.lua`: The `pack-manager.nvim` UI wrapper.
 - `core_ui.lua`: UI enhancements (Colorscheme, Gitsigns, Mini, etc.).
 - `telescope.lua`: Fuzzy finding and LSP navigation.
 - `lsp.lua`: Language Server Protocol and Mason setup.
-- `format.lua`: Auto-formatting via `conform.nvim`.
 - `cmp.lua`: Autocompletion and Snippets.
 - `treesitter.lua`: Syntax highlighting and parsing.
-- `pack_manager.lua`: The `pack-manager.nvim` UI wrapper.
+- `format.lua`: Auto-formatting via `conform.nvim`.
+
+Modules are loaded in this explicit order from `init.lua` (Section 2).
+
+**Opt-in extras** live in `lua/whipsmart/plugins/` and are not loaded by default.
+To enable one, require it from a file in `lua/custom/plugins/`:
+```lua
+-- lua/custom/plugins/debug.lua
+require 'whipsmart.plugins.debug'
+```
+
+Available extras: `autopairs`, `debug` (DAP/Go), `gitsigns` (extended keymaps),
+`indent_line`, `lint`, `neo-tree`.
 
 ## 💻 Machine Detection
 We use `vim.uv.os_gethostname()` in `init.lua` to toggle settings.
@@ -30,11 +42,18 @@ Current machines:
 - [x] Rename project to **whipsmart.nvim**.
 - [x] Refactor into a modular architecture.
 - [x] Install `pack-manager.nvim` for an ergonomic frontend.
+- [x] Complete rebrand — remove all `kickstart-*` augroup names and namespaces.
+- [x] Fix `lua/custom/plugins/` loading (was silently never called).
+- [x] Explicit plugin load order in `init.lua`.
+- [x] Decouple Mason package names from lspconfig server names.
+- [x] Document LSP server setup and opt-in extras workflow.
 - [ ] Merge legacy plugins from other machine forks.
 - [ ] Add machine-specific UI toggles for terminal vs. GUI Neovim.
 - [ ] Centralize snippet collections.
 
 ## 🛠️ Git Maintenance
-- **Upstream:** `https://github.com/nvim-lua/kickstart.nvim`
 - **Origin:** `https://github.com/4rc0s/whipsmart.nvim`
-- **Syncing:** `git fetch upstream && git merge upstream/master`
+
+> This project has diverged significantly from its kickstart.nvim origin in
+> architecture and philosophy. Upstream syncing from kickstart.nvim is no
+> longer applicable — whipsmart.nvim is its own project.

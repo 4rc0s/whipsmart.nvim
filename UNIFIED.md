@@ -37,6 +37,7 @@ Available extras: `autopairs`, `debug` (DAP/Go), `gitsigns` (extended keymaps),
 We use `vim.uv.os_gethostname()` in `init.lua` to toggle settings.
 Current machines:
 - **vera**: (Primary Linux workstation) - High-res font, full LSP suite.
+- **tau**: Linux workstation.
 
 ## 🗺️ The Grand Unified Roadmap
 - [x] Rename project to **whipsmart.nvim**.

@@ -51,6 +51,8 @@ do
   local hostname = vim.uv.os_gethostname()
   if hostname == 'vera' then
     -- Vera specific settings
+  elseif hostname == 'tau' then
+    -- tau specific settings
   end
 
   -- Set to true if you have a Nerd Font installed and selected in the terminal

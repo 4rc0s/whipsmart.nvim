@@ -78,9 +78,14 @@ vim.pack.add {
   gh 'WhoIsSethDaniel/mason-tool-installer.nvim',
 }
 
+-- Mason package names (may differ from lspconfig server names, e.g. lua_ls -> lua-language-server)
+local mason_tools = {
+  'lua-language-server',
+  'stylua',
+}
+
 require('mason').setup {}
-local ensure_installed = vim.tbl_keys(servers or {})
-require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+require('mason-tool-installer').setup { ensure_installed = mason_tools }
 
 for name, server in pairs(servers) do
   vim.lsp.config(name, server)

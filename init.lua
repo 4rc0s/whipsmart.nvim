@@ -201,6 +201,8 @@ do
       elseif name == 'nvim-treesitter' then
         if not ev.data.active then vim.cmd.packadd 'nvim-treesitter' end
         vim.cmd 'TSUpdate'
+      elseif name == 'blink.cmp' and vim.fn.executable 'cargo' == 1 then
+        run_build(name, { 'cargo', 'build', '--release' }, ev.data.path)
       end
     end,
   })

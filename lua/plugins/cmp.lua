@@ -23,10 +23,6 @@ require('blink.cmp').setup {
     -- Fallback to Lua on 32-bit ARM if Rust is not buildable
     implementation = (is_arm32 and not has_cargo) and 'lua' or 'prefer_rust',
   },
-  prebuilt_binaries = {
-    -- 32-bit ARM prebuilt binaries are not currently provided by blink.cmp
-    download = not is_arm32,
-  },
   signature = { enabled = true },
 }
 

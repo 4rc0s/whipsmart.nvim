@@ -101,6 +101,26 @@ do
   vim.keymap.set('n', ']d', function() vim.diagnostic.jump { count = 1 } end, { desc = 'Go to next [D]iagnostic' })
   vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+  -- File/Buffer/Window Management
+  vim.keymap.set('n', '<leader>w', ':w<CR>', { desc = 'Save current file' })
+  vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = 'Close current window/buffer' })
+  vim.keymap.set('n', '<leader>Q', ':qa!<CR>', { desc = 'Quit Neovim without saving' })
+  vim.keymap.set('n', '<leader>wq', ':wq<CR>', { desc = 'Save and quit current file' })
+  vim.keymap.set('n', '<leader>bd', ':bd<CR>', { desc = 'Close current buffer' })
+  vim.keymap.set('n', '<leader>bn', ':bn<CR>', { desc = 'Next buffer' })
+  vim.keymap.set('n', '<leader>bp', ':bp<CR>', { desc = 'Previous buffer' })
+  vim.keymap.set('n', '<leader>bl', ':ls<CR>', { desc = 'List buffers' })
+
+  -- Lua Execution
+  vim.keymap.set('n', '<leader><leader>e', '<cmd>.lua<CR>', { desc = 'Execute current line' })
+  vim.keymap.set('n', '<leader><leader>x', '<cmd>source %<CR>', { desc = 'Execute current file' })
+
+  -- Split Resizing
+  vim.keymap.set('n', '<M-,>', '<c-w>5<')
+  vim.keymap.set('n', '<M-.>', '<c-w>5>')
+  vim.keymap.set('n', '<M-t>', '<C-W>+')
+  vim.keymap.set('n', '<M-s>', '<C-W>-')
+
   -- Split navigation
   vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
   vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
@@ -114,7 +134,37 @@ do
     callback = function() vim.hl.on_yank() end,
   })
 
+  -- Go indentation (Tabs, width 4)
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'go',
+    group = vim.api.nvim_create_augroup('whipsmart-go-indent', { clear = true }),
+    callback = function()
+      vim.bo.expandtab = false
+      vim.bo.tabstop = 4
+      vim.bo.shiftwidth = 4
+    end,
+  })
+
+  -- Python indentation (Spaces, width 4, Black/Ruff textwidth)
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'python',
+    group = vim.api.nvim_create_augroup('whipsmart-python-indent', { clear = true }),
+    callback = function()
+      vim.bo.expandtab = true
+      vim.bo.tabstop = 4
+      vim.bo.shiftwidth = 4
+      vim.bo.textwidth = 88
+    end,
+  })
+
   -- [[ Machine Specific Setup ]]
+  local hostname = vim.uv.os_gethostname()
+  if hostname == 'orca' then
+    -- Specific to this machine if needed in the future
+  elseif hostname == 'cygnus' then
+    -- Local development machine
+  end
+
   -- lua/local.lua is gitignored — each machine maintains its own copy.
   -- Loaded last so it can override any default set above.
   -- See lua/local.lua.example for available options.
@@ -151,6 +201,8 @@ do
       elseif name == 'nvim-treesitter' then
         if not ev.data.active then vim.cmd.packadd 'nvim-treesitter' end
         vim.cmd 'TSUpdate'
+      elseif name == 'blink.cmp' and vim.fn.executable 'cargo' == 1 then
+        run_build(name, { 'cargo', 'build', '--release' }, ev.data.path)
       end
     end,
   })
@@ -164,6 +216,7 @@ do
     'plugins.cmp',
     'plugins.treesitter',
     'plugins.format',
+    'plugins.python_tools',
   } do
     require(mod)
   end

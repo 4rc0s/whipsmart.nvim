@@ -1,97 +1,85 @@
-# 🌌 Whipsmart Neovim (4rc0s/whipsmart.nvim)
+# Whipsmart Architecture
 
-This is the **Grand Unified** Neovim configuration for all my machines, built on the Neovim 0.12+ native `vim.pack` system with a modern modular architecture.
+Unified Neovim configuration for all machines.
 
-## 🚀 Native Package Workflow (0.12+)
-We use **`pack-manager.nvim`** for a Lazy-like UI experience:
-1. `<leader>pm`: Open the **Package Manager Menu**.
-2. From the menu, you can Update, Install, or Manage plugins.
+## Core Philosophy
 
-**Low-level access:**
-- `<leader>ps`: **Sync** (Fetch updates via native `vim.pack.update()`).
-- `<leader>pi`: **Inspect** (Native offline status).
+1.  **Universal Core:** Every machine runs the same core `init.lua` and `lua/plugins/*.lua`.
+2.  **Explicit Extras:** Functionality like LSP, Debugging, and Linting are handled by a thin wrapper (`lua/whipsmart/plugins/*.lua`) that only initializes if the underlying plugin is present in `nvim-pack-lock.json`.
+3.  **Machine Overrides:** Machine-specific settings (background color, UI toggles, custom keymaps) live in `lua/local.lua` (git-ignored).
+4.  **Lockfile Driven:** The `nvim-pack-lock.json` file is the source of truth for installed plugins and their versions.
 
-## 🏗️ Modular Architecture
-Plugin configurations are split into logically organized files in `lua/plugins/`:
-- `pack_manager.lua`: The `pack-manager.nvim` UI wrapper.
-- `core_ui.lua`: UI enhancements (Colorscheme, Gitsigns, Mini, etc.).
-- `telescope.lua`: Fuzzy finding and LSP navigation.
-- `lsp.lua`: Language Server Protocol and Mason setup.
-- `cmp.lua`: Autocompletion and Snippets.
-- `treesitter.lua`: Syntax highlighting and parsing.
-- `format.lua`: Auto-formatting via `conform.nvim`.
+## Directory Structure
 
-Modules are loaded in this explicit order from `init.lua` (Section 2).
-
-**Opt-in extras** live in `lua/whipsmart/plugins/` and are not loaded by default.
-To enable one, require it from a file in `lua/custom/plugins/`:
-```lua
--- lua/custom/plugins/debug.lua
-require 'whipsmart.plugins.debug'
+```text
+~/.config/nvim/
+├── init.lua                # Main entry point (Section 1: Options, Section 2: Plugins, Section 3: LSP/Extra Config)
+├── nvim-pack-lock.json     # Plugin manifest and lockfile
+├── lua/
+│   ├── local.lua           # (Git-ignored) Machine-specific overrides
+│   ├── plugins/            # Universal plugin specifications
+│   │   ├── core_ui.lua     # basic UI, icons, statusline
+│   │   ├── telescope.lua   # fuzzy finder
+│   │   └── ...
+│   ├── custom/             # Custom plugin specs or opt-in extras
+│   │   └── ...
+│   └── whipsmart/          # Internal framework
+│       ├── health.lua      # :checkhealth whipsmart
+│       └── plugins/        # Conditional wrappers for LSP, DAP, Lint, etc.
+│           ├── lsp.lua     # only runs if 'neovim/nvim-lspconfig' is in lockfile
+│           └── ...
+└── doc/
+    └── whipsmart.txt       # Vim help doc
 ```
 
-Available extras: `autopairs`, `debug` (DAP/Go), `gitsigns` (extended keymaps),
-`indent_line`, `lint`, `markdown` (render-markdown + obsidian), `neo-tree`.
+## Adding a Plugin
 
-The `markdown` extra reads `vim.g.obsidian_vaults` from `local.lua` to configure
-obsidian.nvim; render-markdown loads unconditionally. Example `local.lua` snippet:
-```lua
-vim.g.obsidian_vaults = { { name = 'personal', path = '~/Obsidian/Main' } }
-```
-Then activate in `lua/custom/plugins/markdown.lua`:
-```lua
-require 'whipsmart.plugins.markdown'
-```
+1.  Add the plugin to `nvim-pack-lock.json`.
+2.  Add a configuration file in `lua/plugins/` (for universal plugins) or `lua/custom/plugins/` (for extras).
+3.  Restart Neovim and run `:Pack install`.
 
-## 💻 Per-Machine Local Config
-Each machine maintains a `lua/local.lua` that is **gitignored** and never committed.
-`init.lua` loads it at startup via `pcall(require, 'local')` — silently skipped if absent.
+## Migration Guide (Hecate -> Whipsmart)
 
-Use it for anything machine-specific: font size, colorscheme overrides, GUI settings,
-local interpreter paths, or enabling whipsmart opt-in extras only on that machine.
+The goal is to move all machine-specific logic out of the main config and into `lua/local.lua`.
 
-See `lua/local.lua.example` for a documented template.
-
-**Setup on a new machine:**
-```sh
-git clone git@github.com:4rc0s/whipsmart.nvim.git ~/.config/nvim
+### Step 1: Initialize local.lua
+```bash
 cp ~/.config/nvim/lua/local.lua.example ~/.config/nvim/lua/local.lua
-# Edit lua/local.lua for this machine, then launch nvim
 ```
 
-## 🗺️ The Grand Unified Roadmap
-- [x] Rename project to **whipsmart.nvim**.
-- [x] Refactor into a modular architecture.
-- [x] Install `pack-manager.nvim` for an ergonomic frontend.
-- [x] Complete rebrand — remove all `kickstart-*` augroup names and namespaces.
-- [x] Fix `lua/custom/plugins/` loading (was silently never called).
-- [x] Explicit plugin load order in `init.lua`.
-- [x] Decouple Mason package names from lspconfig server names.
-- [x] Document LSP server setup and opt-in extras workflow.
-- [x] Replace hostname detection with gitignored lua/local.lua per-machine overrides.
-- [x] Port hecate config: LSP servers, formatters, treesitter parsers, custom plugins.
+### Step 2: LSP Configuration
+LSP configuration requires two entries in `lua/local.lua`:
+1.  `vim.g.lsp_servers`: A list of LSP servers to ensure are installed via Mason.
+2.  `vim.g.lsp_config`: A table mapping server names to their `lspconfig` setup tables.
+
+Example:
+```lua
+vim.g.lsp_servers = { 'pyright', 'rust_analyzer' }
+vim.g.lsp_config = {
+  pyright = {
+    settings = {
+      python = {
+        analysis = { autoSearchPaths = true }
+      }
+    }
+  }
+}
+```
+
+## Status / Roadmap
+
+- [x] Initial structure and Section 1-3 implementation.
+- [x] Port core plugins (telescope, treesitter, etc.).
+- [x] Implement `whipsmart.plugins` conditional loading.
+- [x] Move per-machine overrides to `local.lua`.
 - [x] Fix `local.lua` load order — `pcall(require, 'local')` moved to end of Section 1 so it can override defaults.
 - [x] Add markdown opt-in extra (render-markdown, obsidian, blink.compat).
 - [x] Migrate roci to whipsmart.
-- [ ] Migrate vera to whipsmart (create lua/local.lua).
+- [x] Migrate orca to whipsmart (machine-specific scrolloff and catppuccin in local.lua).
+- [x] Migrate cygnus to whipsmart (machine-specific keymaps and plugins mainlined).
+- [x] Unify Go configuration (Tabs, width 4) as a global standard in init.lua.
+- [x] Unify Python configuration (Spaces, width 4, textwidth 88) in init.lua.
 - [x] Migrate tau to whipsmart (create lua/local.lua).
+- [ ] Migrate vera to whipsmart (create lua/local.lua).
 - [ ] Add machine-specific UI toggles for terminal vs. GUI Neovim (via local.lua).
 - [ ] Centralize snippet collections.
-
-## 🛠️ Git Maintenance
-- **Origin:** `https://github.com/4rc0s/whipsmart.nvim`
-
-> This project has diverged significantly from its kickstart.nvim origin in
-> architecture and philosophy. Upstream syncing from kickstart.nvim is no
-> longer applicable — whipsmart.nvim is its own project.
-
-### Tracking Key Upstream Dependencies
-
-**`pack-manager.nvim`** (`https://github.com/mplusp/pack-manager.nvim`) is the
-UI layer over `vim.pack` and the most architecturally significant third-party
-dependency. Watch this repo for new features, API changes, and bug fixes.
-
-To pick up an improvement:
-1. Check the [pack-manager.nvim releases/commits](https://github.com/mplusp/pack-manager.nvim/commits/main) for relevant changes.
-2. Run `<leader>ps` to pull the latest revision and update `nvim-pack-lock.json`.
-3. Commit the updated lockfile to pin the new version.

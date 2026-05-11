@@ -6,6 +6,7 @@ Whipsmart.nvim is a modular, native-first Neovim configuration built on top of t
 
 - **Modular Architecture**: Plugin configurations are isolated in `lua/plugins/*.lua`.
 - **Native-First**: Leverages Neovim 0.12's built-in `vim.pack` for plugin management and native LSP/Autocomplete improvements.
+- **Runtime-Aware LSP**: Automatically detects available language runtimes (Go, Node, Python) and only installs corresponding LSP tools, preventing errors on minimal systems.
 - **Ergonomic Dashboard**: Includes `pack-manager.nvim` to provide a polished, Lazy-like UI on top of native primitives.
 - **Machine Awareness**: Built-in hostname detection in `init.lua` for machine-specific overrides.
 - **Version Pinning**: Uses `nvim-pack-lock.json` for reproducible environments across all your hardware.
@@ -16,6 +17,7 @@ Whipsmart.nvim is a modular, native-first Neovim configuration built on top of t
 
 Ensure you are running **Neovim 0.12+** (nightly or latest stable). You will also need:
 - `git`, `make`, `unzip`, `gcc`
+- `tree-sitter-cli` (Arch: `pacman -S tree-sitter-cli` | Others: `cargo install tree-sitter-cli`)
 - [ripgrep](https://github.com/BurntSushi/ripgrep) and [fd](https://github.com/sharkdp/fd)
 - A [Nerd Font](https://www.nerdfonts.com/) (recommended)
 
@@ -29,11 +31,13 @@ git clone https://github.com/<your_username>/whipsmart.nvim.git ~/.config/nvim
 nvim
 ```
 
-On first launch, Mason will install the default LSP servers and formatters. Once complete, verify your environment:
+On first launch, Mason will install the default LSP servers and formatters for the runtimes it detects on your system (e.g., Go, Node.js, Python). Once complete, verify your environment:
 
 ```vim
 :checkhealth whipsmart
 ```
+
+> **Tip:** Whipsmart is "runtime-aware." If you install a new language later (e.g., via `mise` or `asdf`), simply restart Neovim or run `:MasonToolsInstall` to pick up the corresponding tools automatically.
 
 ### 3. Register Your Machine
 

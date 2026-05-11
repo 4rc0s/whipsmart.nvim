@@ -108,14 +108,25 @@ vim.pack.add {
 local mason_tools = {
   'lua-language-server',
   'stylua',
-  'gopls',
-  'goimports',
-  'basedpyright',
-  'ruff',
-  'typescript-language-server',
-  'prettierd',
-  'rust-analyzer',  -- installed by Mason, managed by rustaceanvim (see custom/plugins/rust.lua)
 }
+
+local function has(bin) return vim.fn.executable(bin) == 1 end
+
+if has 'go' then
+  vim.list_extend(mason_tools, { 'gopls', 'goimports' })
+end
+
+if has 'python3' then
+  vim.list_extend(mason_tools, { 'basedpyright', 'ruff' })
+end
+
+if has 'npm' or has 'pnpm' or has 'yarn' or has 'bun' then
+  vim.list_extend(mason_tools, { 'typescript-language-server', 'prettierd' })
+end
+
+if has 'cargo' then
+  table.insert(mason_tools, 'rust-analyzer')
+end
 
 require('mason').setup {}
 require('mason-tool-installer').setup { ensure_installed = mason_tools }

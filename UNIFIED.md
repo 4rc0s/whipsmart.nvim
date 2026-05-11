@@ -53,7 +53,7 @@ LSP configuration requires two entries in `lua/local.lua`:
 2.  `vim.g.lsp_config`: A table mapping server names to their `lspconfig` setup tables.
 
 ### Step 3: Low-Resource / ARM Optimization (Opt-Out)
-For machines with limited resources (like a Raspberry Pi), you can disable heavy LSP servers or tools globally defined in the core.
+For machines with limited resources (such as older hardware or ARM devices), you can disable heavy LSP servers or tools globally defined in the core.
 
 Add this to `lua/local.lua`:
 ```lua

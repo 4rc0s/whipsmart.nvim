@@ -23,3 +23,6 @@
 
 -- Example: enable a whipsmart opt-in extra only on this machine
 -- require 'whipsmart.plugins.debug'
+
+-- Example: disable heavy LSP servers on low-resource machines (like Raspberry Pi)
+-- vim.g.disabled_lsp_servers = { 'lua_ls', 'stylua' }

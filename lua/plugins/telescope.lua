@@ -15,6 +15,9 @@ if vim.fn.executable 'make' == 1 then table.insert(telescope_plugins, gh 'nvim-t
 vim.pack.add(telescope_plugins)
 
 require('telescope').setup {
+  defaults = {
+    file_ignore_patterns = { 'Obsidian%-Syncthing', '%.bz2' },
+  },
   extensions = {
     ['ui-select'] = { require('telescope.themes').get_dropdown() },
   },

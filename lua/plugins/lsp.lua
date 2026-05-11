@@ -105,10 +105,12 @@ vim.pack.add {
 }
 
 -- Mason package names (may differ from lspconfig server names, e.g. lua_ls -> lua-language-server)
-local mason_tools = {
-  'lua-language-server',
-  'stylua',
-}
+local mason_tools = {}
+
+if not vim.g.disable_lua_ls then
+  table.insert(mason_tools, 'lua-language-server')
+  table.insert(mason_tools, 'stylua')
+end
 
 local function has(bin) return vim.fn.executable(bin) == 1 end
 
@@ -132,8 +134,10 @@ require('mason').setup {}
 require('mason-tool-installer').setup { ensure_installed = mason_tools }
 
 for name, server in pairs(servers) do
-  vim.lsp.config(name, server)
-  vim.lsp.enable(name)
+  if not (name == 'lua_ls' and vim.g.disable_lua_ls) and not (name == 'stylua' and vim.g.disable_lua_ls) then
+    vim.lsp.config(name, server)
+    vim.lsp.enable(name)
+  end
 end
 
 -- System-installed LSPs (not managed by Mason)

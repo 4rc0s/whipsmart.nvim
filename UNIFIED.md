@@ -52,6 +52,16 @@ LSP configuration requires two entries in `lua/local.lua`:
 1.  `vim.g.lsp_servers`: A list of LSP servers to ensure are installed via Mason.
 2.  `vim.g.lsp_config`: A table mapping server names to their `lspconfig` setup tables.
 
+### Step 3: Low-Resource / ARM Optimization (Opt-Out)
+For machines with limited resources (like a Raspberry Pi), you can disable heavy LSP servers or tools globally defined in the core.
+
+Add this to `lua/local.lua`:
+```lua
+-- Disable heavy LSPs for performance
+vim.g.disabled_lsp_servers = { 'lua_ls', 'stylua' }
+```
+This prevents Mason from installing them and Neovim from initializing them on this specific machine.
+
 Example:
 ```lua
 vim.g.lsp_servers = { 'pyright', 'rust_analyzer' }

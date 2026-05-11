@@ -120,7 +120,7 @@ if has 'python3' then
   vim.list_extend(mason_tools, { 'basedpyright', 'ruff' })
 end
 
-if has 'node' or has 'npm' then
+if has 'npm' or has 'pnpm' or has 'yarn' or has 'bun' then
   vim.list_extend(mason_tools, { 'typescript-language-server', 'prettierd' })
 end
 

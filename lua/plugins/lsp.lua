@@ -105,12 +105,10 @@ vim.pack.add {
 }
 
 -- Mason package names (may differ from lspconfig server names, e.g. lua_ls -> lua-language-server)
-local mason_tools = {}
-
-if not vim.g.disable_lua_ls then
-  table.insert(mason_tools, 'lua-language-server')
-  table.insert(mason_tools, 'stylua')
-end
+local mason_tools = {
+  'lua-language-server',
+  'stylua',
+}
 
 local function has(bin) return vim.fn.executable(bin) == 1 end
 
@@ -130,11 +128,31 @@ if has 'cargo' then
   table.insert(mason_tools, 'rust-analyzer')
 end
 
+-- Filter out disabled tools/servers (opt-out)
+local disabled_servers = vim.g.disabled_lsp_servers or {}
+local function is_disabled(name)
+  for _, disabled in ipairs(disabled_servers) do
+    if name == disabled then return true end
+  end
+  return false
+end
+
+local filtered_mason_tools = {}
+for _, tool in ipairs(mason_tools) do
+  -- Map common lspconfig names to mason names for filtering
+  local check_name = tool
+  if tool == 'lua-language-server' then check_name = 'lua_ls' end
+  
+  if not is_disabled(check_name) then
+    table.insert(filtered_mason_tools, tool)
+  end
+end
+
 require('mason').setup {}
-require('mason-tool-installer').setup { ensure_installed = mason_tools }
+require('mason-tool-installer').setup { ensure_installed = filtered_mason_tools }
 
 for name, server in pairs(servers) do
-  if not (name == 'lua_ls' and vim.g.disable_lua_ls) and not (name == 'stylua' and vim.g.disable_lua_ls) then
+  if not is_disabled(name) then
     vim.lsp.config(name, server)
     vim.lsp.enable(name)
   end

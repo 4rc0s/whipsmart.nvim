@@ -99,6 +99,8 @@ do
   vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
   vim.keymap.set('n', '[d', function() vim.diagnostic.jump { count = -1 } end, { desc = 'Go to previous [D]iagnostic' })
   vim.keymap.set('n', ']d', function() vim.diagnostic.jump { count = 1 } end, { desc = 'Go to next [D]iagnostic' })
+  -- Relative line numbers toggle
+  vim.keymap.set('n', '<leader>tr', function() vim.o.relativenumber = not vim.o.relativenumber end, { desc = '[T]oggle [R]elative numbers' })
   vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
   -- File/Buffer/Window Management
@@ -156,6 +158,14 @@ do
       vim.bo.textwidth = 88
     end,
   })
+
+  -- Function to remove trailing whitespace
+  local function TrimWhitespace()
+    local save = vim.fn.winsaveview()
+    vim.cmd [[keeppatterns %s/\s\+$//e]]
+    vim.fn.winrestview(save)
+  end
+  vim.api.nvim_create_user_command('TrimWhitespace', TrimWhitespace, {})
 
   -- [[ Machine Specific Setup ]]
   local hostname = vim.uv.os_gethostname()

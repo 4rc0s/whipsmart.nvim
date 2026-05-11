@@ -73,7 +73,8 @@ cp ~/.config/nvim/lua/local.lua.example ~/.config/nvim/lua/local.lua
 - [x] Fix `local.lua` load order — `pcall(require, 'local')` moved to end of Section 1 so it can override defaults.
 - [x] Add markdown opt-in extra (render-markdown, obsidian, blink.compat).
 - [x] Migrate roci to whipsmart.
-- [ ] Migrate vera and tau to whipsmart (create their lua/local.lua files).
+- [ ] Migrate vera to whipsmart (create lua/local.lua).
+- [x] Migrate tau to whipsmart (create lua/local.lua).
 - [ ] Add machine-specific UI toggles for terminal vs. GUI Neovim (via local.lua).
 - [ ] Centralize snippet collections.
 

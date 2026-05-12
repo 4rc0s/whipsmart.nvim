@@ -8,8 +8,8 @@ local function gh(repo) return 'https://github.com/' .. repo end
 vim.pack.add { gh 'stevearc/conform.nvim' }
 
 require('conform').setup {
-  notify_on_error = false,
-  format_on_save = { timeout_ms = 500, lsp_format = 'fallback' },
+  notify_on_error = true,
+  format_on_save = { timeout_ms = 1000, lsp_format = 'fallback' },
   formatters_by_ft = {
     lua = { 'stylua' },
     python = { 'ruff_format', 'ruff_organize_imports' },

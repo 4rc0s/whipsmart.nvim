@@ -121,7 +121,7 @@ if has 'python3' then
 end
 
 if has 'npm' or has 'pnpm' or has 'yarn' or has 'bun' then
-  vim.list_extend(mason_tools, { 'typescript-language-server', 'prettierd' })
+  vim.list_extend(mason_tools, { 'typescript-language-server', 'prettierd', 'prettier' })
 end
 
 if has 'cargo' then

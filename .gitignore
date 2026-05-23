@@ -16,3 +16,6 @@ spell/
 # Per-machine local overrides — each machine maintains its own copy, never committed.
 # See lua/local.lua.example for available options.
 lua/local.lua
+
+# Antigravity CLI local run data and logs
+.antigravitycli/

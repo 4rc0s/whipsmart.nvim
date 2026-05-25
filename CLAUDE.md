@@ -23,6 +23,35 @@ Neovim 0.12+ `vim.pack` system. It replaced a kickstart.nvim + Lazy.nvim setup o
 - `:TSUpdate` — update treesitter parsers
 - `:ConformInfo` — show active formatters for current buffer
 
+### Managing `nvim-pack-lock.json` Across Machines
+
+The `nvim-pack-lock.json` lockfile ensures all machines install the exact same version of Neovim plugins. However, auto-updates to the lockfile can block `git pull` operations. 
+
+To prevent Git from tracking local modifications on your machine while keeping it in version control:
+```bash
+git update-index --skip-worktree nvim-pack-lock.json
+```
+
+If you intentionally want to update your plugins and commit the new lockfile:
+1. Temporarily disable the skip:
+   ```bash
+   git update-index --no-skip-worktree nvim-pack-lock.json
+   ```
+2. Open Neovim, update/sync your plugins, and verify everything works.
+3. Commit and push the updated `nvim-pack-lock.json`.
+4. Re-enable the skip:
+   ```bash
+   git update-index --skip-worktree nvim-pack-lock.json
+   ```
+
+If a merge conflict occurs during a pull/merge:
+1. Accept the upstream lockfile:
+   ```bash
+   git checkout --theirs nvim-pack-lock.json
+   ```
+2. Open Neovim, run a package sync (`<leader>ps`), and verify everything is correct.
+3. Commit the newly generated lockfile.
+
 ## Architecture
 
 ### Adding an LSP server

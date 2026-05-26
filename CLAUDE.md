@@ -25,32 +25,36 @@ Neovim 0.12+ `vim.pack` system. It replaced a kickstart.nvim + Lazy.nvim setup o
 
 ### Managing `nvim-pack-lock.json` Across Machines
 
-The `nvim-pack-lock.json` lockfile ensures all machines install the exact same version of Neovim plugins. However, auto-updates to the lockfile can block `git pull` operations. 
+The `nvim-pack-lock.json` lockfile ensures all machines install the exact same version of Neovim plugins. It is fully tracked in Git without workarounds.
 
-To prevent Git from tracking local modifications on your machine while keeping it in version control:
-```bash
-git update-index --skip-worktree nvim-pack-lock.json
-```
-
-If you intentionally want to update your plugins and commit the new lockfile:
-1. Temporarily disable the skip:
+If you update plugins locally:
+1. Stage and commit the updated `nvim-pack-lock.json`:
    ```bash
-   git update-index --no-skip-worktree nvim-pack-lock.json
+   git add nvim-pack-lock.json
+   git commit -m "Update package lockfile"
    ```
-2. Open Neovim, update/sync your plugins, and verify everything works.
-3. Commit and push the updated `nvim-pack-lock.json`.
-4. Re-enable the skip:
+2. Push your changes so your other machines stay in sync:
    ```bash
-   git update-index --skip-worktree nvim-pack-lock.json
+   git push origin master
    ```
 
-If a merge conflict occurs during a pull/merge:
+If you want to pull changes but have local lockfile changes you do not want to keep:
+1. Discard the local lockfile changes:
+   ```bash
+   git restore nvim-pack-lock.json
+   ```
+2. Pull the changes:
+   ```bash
+   git pull
+   ```
+
+If a merge conflict occurs on the lockfile during a pull:
 1. Accept the upstream lockfile:
    ```bash
    git checkout --theirs nvim-pack-lock.json
    ```
-2. Open Neovim, run a package sync (`<leader>ps`), and verify everything is correct.
-3. Commit the newly generated lockfile.
+2. Open Neovim, run a package sync (`<leader>ps` or `<leader>pm`), and verify everything is correct.
+3. Commit the resolved lockfile.
 
 ## Architecture
 

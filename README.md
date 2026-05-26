@@ -72,14 +72,17 @@ Whipsmart also exposes the raw `vim.pack` primitives:
 - **`:w`**: Inside the update buffer, write to disk to apply changes.
 
 ### 🔒 Managing `nvim-pack-lock.json` Across Machines
-Whipsmart tracks `nvim-pack-lock.json` to ensure reproducible environments. However, auto-updates to the lockfile can block `git pull` updates when moving between machines.
+Whipsmart tracks `nvim-pack-lock.json` to ensure reproducible environments. When you update plugins locally, the lockfile changes should be committed and pushed to keep all your machines in sync.
 
-To prevent local plugin changes from dirtying Git while keeping the file tracked, run this command in your `~/.config/nvim` directory:
+When pulling changes from upstream:
+- If you have local lockfile changes you want to keep, commit them first before pulling.
+- If you want to discard your local lockfile updates and accept the remote version:
 ```sh
-git update-index --skip-worktree nvim-pack-lock.json
+git restore nvim-pack-lock.json
+git pull
 ```
 
-See [CLAUDE.md](CLAUDE.md) for full details on committing lockfile updates or resolving conflicts.
+See [CLAUDE.md](CLAUDE.md) for full details on managing lockfile workflows and resolving conflicts.
 
 ## 🏗️ Project Layout
 

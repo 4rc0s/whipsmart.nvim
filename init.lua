@@ -161,6 +161,17 @@ do
     end,
   })
 
+  -- Rust indentation (Spaces, width 4)
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'rust',
+    group = vim.api.nvim_create_augroup('whipsmart-rust-indent', { clear = true }),
+    callback = function()
+      vim.bo.expandtab = true
+      vim.bo.tabstop = 4
+      vim.bo.shiftwidth = 4
+    end,
+  })
+
   -- Function to remove trailing whitespace
   local function TrimWhitespace()
     local save = vim.fn.winsaveview()

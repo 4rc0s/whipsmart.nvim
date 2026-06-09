@@ -74,6 +74,8 @@ do
   vim.o.confirm = true
   vim.o.colorcolumn = '120'
   vim.o.expandtab = false
+  vim.o.tabstop = 4
+  vim.o.shiftwidth = 4
   vim.opt.isfname:append '@-@'
 
   -- [[ Basic Keymaps ]]

@@ -71,6 +71,7 @@ do
   vim.o.inccommand = 'split'
   vim.o.cursorline = true
   vim.o.scrolloff = 8
+  vim.opt.mousescroll = 'ver:1,hor:6'
   vim.o.confirm = true
   vim.o.colorcolumn = '120'
   vim.o.expandtab = false

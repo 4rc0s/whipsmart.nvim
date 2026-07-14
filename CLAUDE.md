@@ -179,7 +179,28 @@ calls `require('blink.cmp.config').merge_with(...)` which needs blink.cmp alread
 
 - `origin` → `https://github.com/4rc0s/whipsmart.nvim.git` (Grand Unified config)
 
-Upstream syncing from kickstart.nvim is no longer applicable — whipsmart.nvim is its own project.
+whipsmart.nvim is its own project — there is no automatic upstream syncing from
+kickstart.nvim. However, we occasionally review upstream changes and port the ones that
+make sense as fresh commits (citing the upstream hash in the commit message).
+
+### Reviewing upstream kickstart.nvim
+
+**Last reviewed:** kickstart commit `f0a2108` (2026-07-14). Start the next review from
+this watermark — because ports are fresh commits (never merges), `git merge-base` stays
+frozen at the original fork point (`cfdc17b`) and would re-surface already-ported commits.
+
+Workflow:
+```bash
+git remote add kickstart-upstream https://github.com/nvim-lua/kickstart.nvim.git
+git fetch kickstart-upstream master
+git log --oneline <last-reviewed>..kickstart-upstream/master   # candidates
+git remote remove kickstart-upstream                           # clean up when done
+```
+
+Kickstart is a single-file `init.lua`; our config is split into `lua/plugins/*.lua`
+modules, so port changes by hand rather than cherry-picking. Purely structural upstream
+changes (section renumbering, comment reflows) usually don't map onto our layout.
+After a review, update the **Last reviewed** watermark above.
 
 ## Key Conventions
 

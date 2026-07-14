@@ -9,9 +9,6 @@ local function gh(repo) return 'https://github.com/' .. repo end
 vim.pack.add { gh 'NMAC427/guess-indent.nvim' }
 require('guess-indent').setup {}
 
--- Pretty icons (if Nerd Font is available)
-if vim.g.have_nerd_font then vim.pack.add { gh 'nvim-tree/nvim-web-devicons' } end
-
 -- Git related signs in the gutter
 vim.pack.add { gh 'lewis6991/gitsigns.nvim' }
 require('gitsigns').setup {
@@ -63,6 +60,14 @@ require('ibl').setup {}
 
 -- mini.nvim modules
 vim.pack.add { gh 'nvim-mini/mini.nvim' }
+
+-- Pretty icons (if Nerd Font is available)
+if vim.g.have_nerd_font then
+  require('mini.icons').setup()
+  -- Backwards compatibility with plugins that require `nvim-web-devicons` (e.g. telescope.nvim)
+  MiniIcons.mock_nvim_web_devicons()
+end
+
 require('mini.ai').setup {
   mappings = {
     around_next = 'aa',

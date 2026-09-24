@@ -14,7 +14,13 @@ local is_arm32 = jit.arch == 'arm' or vim.uv.os_uname().machine:match 'armv7'
 local has_cargo = vim.fn.executable 'cargo' == 1
 
 require('blink.cmp').setup {
-  keymap = { preset = 'default' },
+  -- <C-space> is now tmux's prefix2 (see ~/.config/tmux/tmux.conf), so it never
+  -- reaches nvim; <C-x><C-o> mirrors Vim's built-in omni-completion trigger instead.
+  keymap = {
+    preset = 'default',
+    ['<C-space>'] = false,
+    ['<C-x><C-o>'] = { 'show', 'fallback' },
+  },
   appearance = { nerd_font_variant = 'mono' },
   completion = { documentation = { auto_show = false, auto_show_delay_ms = 500 } },
   -- lazydev (set up in plugins/lsp.lua) completes module names in `require` statements and

@@ -393,7 +393,9 @@ calls `require('blink.cmp.config').merge_with(...)` which needs blink.cmp alread
 
 - `[` is removed from `show_on_x_blocked_trigger_characters` so `[[` wikilinks trigger completion.
 - `completion.menu.auto_show` suppresses the popup for regular word typing in markdown/text;
-  the menu only auto-opens when the trigger character was `[`. Ctrl-Space always works.
+  the menu only auto-opens when the trigger character was `[`. `<C-x><C-o>` (the manual
+  `show` trigger — remapped off `<C-space>` since that's now tmux's `prefix2`; see
+  `lua/plugins/cmp.lua`) always works.
 - `min_chars = 2` means the menu appears after the second character of a wikilink query.
 
 ```lua

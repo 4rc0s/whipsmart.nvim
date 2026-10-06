@@ -169,7 +169,7 @@ local lsp_servers = {
     mason = 'lua-language-server',   -- Mason name for lua_ls
     config = { ... },                -- passed to vim.lsp.config
   },
-  pyright = { mason = 'pyright', runtime = 'python', config = {} },
+  basedpyright = { mason = 'basedpyright', runtime = 'python', config = {} },
 }
 ```
 

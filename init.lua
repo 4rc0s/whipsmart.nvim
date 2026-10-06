@@ -50,6 +50,12 @@ do
   -- Set to true if you have a Nerd Font installed and selected in the terminal
   vim.g.have_nerd_font = true
 
+  -- This config uses no remote plugins, so the host providers only produce
+  -- :checkhealth warnings. Python is left enabled for a future python3_host_prog.
+  vim.g.loaded_node_provider = 0
+  vim.g.loaded_perl_provider = 0
+  vim.g.loaded_ruby_provider = 0
+
   -- Colorscheme to apply. Whichever module owns the matching name prefix installs and applies it;
   -- every other colorscheme module skips itself, so exactly one scheme is ever downloaded and
   -- sourced. 'tokyonight-*' is owned by plugins/core_ui.lua, 'catppuccin-*' by

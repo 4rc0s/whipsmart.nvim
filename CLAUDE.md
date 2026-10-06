@@ -43,6 +43,14 @@ The reverse does not hold: a plugin directory with no lockfile entry gets its en
 removing a plugin needs `lua/whipsmart/pack_removed.lua` — see "Removing a plugin" below.
 After confirming an update, `:restart` to load the new code.
 
+**Restart Neovim after every `git pull`, before any package command.** vim.pack reads the lockfile
+once per session, the first time it needs it, and every write (`<leader>ps`, `<leader>pr`,
+`vim.pack.del`, confirming in the update buffer) serializes that in-memory copy over the whole
+file. A session that was open during the pull therefore still holds the old lockfile: `<leader>pr`
+there restores the *pre-pull* revisions and writes them back, silently undoing the pull. The same
+applies to the conflict and rebase steps below — the Neovim that runs `<leader>pr` must have been
+started after the lockfile on disk reached its final state.
+
 If you update plugins locally:
 1. Stage and commit the updated `nvim-pack-lock.json`:
    ```bash
@@ -69,7 +77,7 @@ If a merge conflict occurs on the lockfile during a pull:
    ```bash
    git checkout --theirs nvim-pack-lock.json
    ```
-2. Open Neovim and run `<leader>pr` (**not** `<leader>ps`, which would fetch newest and overwrite
+2. Start a fresh Neovim (quit any that were already running) and run `<leader>pr` (**not** `<leader>ps`, which would fetch newest and overwrite
    the lockfile you just accepted), confirm with `:write`, then `:restart`.
 3. Commit the resolved lockfile.
 

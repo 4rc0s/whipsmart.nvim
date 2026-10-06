@@ -110,8 +110,10 @@ git restore nvim-pack-lock.json
 git pull
 ```
 
-After pulling a lockfile someone else updated, run **`<leader>pr`** — not `<leader>ps`, which would
-fetch the newest revisions and overwrite the lockfile you just pulled.
+After pulling a lockfile someone else updated, **quit or `:restart` every running Neovim first**, then
+run **`<leader>pr`** — not `<leader>ps`, which would fetch the newest revisions and overwrite the
+lockfile you just pulled. Neovim reads the lockfile once per session, so a session that was open
+during the pull would restore the old revisions and write them back over the ones you pulled.
 
 See [CLAUDE.md](CLAUDE.md) for full details on managing lockfile workflows and resolving conflicts.
 

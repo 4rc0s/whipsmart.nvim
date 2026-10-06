@@ -261,6 +261,9 @@ do
   } do
     require(mod)
   end
+
+  -- Deletes plugins this config has dropped from every machine, not just the one that dropped them
+  require 'whipsmart.pack_removed'
 end
 
 -- ============================================================

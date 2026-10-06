@@ -10,7 +10,8 @@ Neovim 0.12+ `vim.pack` system. It replaced a kickstart.nvim + Lazy.nvim setup o
 - Core plugin modules live in `lua/plugins/`.
 - Opt-in extras live in `lua/whipsmart/plugins/` (not loaded by default).
 - Per-machine overrides live in `lua/local.lua` (gitignored, never committed).
-- Personal plugins go in `lua/custom/plugins/` (auto-loaded, gitignored-friendly).
+- Personal plugins go in `lua/custom/plugins/` (auto-loaded, **tracked** in git and shared by every
+  machine — machine-specific choices belong in `lua/local.lua`).
 - The roadmap and architecture notes are in `UNIFIED.md`.
 
 ## Plugin Management (inside Neovim)

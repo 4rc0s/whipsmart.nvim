@@ -38,6 +38,8 @@ revisions already recorded there. Use `<leader>ps` when you intend to bump plugi
 
 Plugins that are in the lockfile but missing from disk are installed at the locked revision on
 startup, so `<leader>pr` is only needed for plugins already present at a different revision.
+The reverse does not hold: a plugin directory with no lockfile entry gets its entry *rebuilt*, so
+removing a plugin needs `lua/whipsmart/pack_removed.lua` — see "Removing a plugin" below.
 After confirming an update, `:restart` to load the new code.
 
 If you update plugins locally:
@@ -310,6 +312,18 @@ Delete by name — this removes the directory **and** the lockfile entry:
 ```
 
 pack-manager.nvim's `:PackListInactive` / `:PackDelInactive` do the same thing.
+
+**`vim.pack.del` only cleans the machine it runs on.** Every other machine still has the
+directory, and at startup vim.pack rebuilds a lockfile entry for any plugin directory that lacks
+one ("Repaired corrupted lock data") — so pulling a lockfile with the entry removed does not prune
+it; it re-adds it, and that machine's next `pack update` commit pushes it back upstream.
+
+So to drop a plugin for good: delete its config, run `vim.pack.del` locally, **and add its name to
+`removed` in `lua/whipsmart/pack_removed.lua`**. At `VimEnter` that module deletes any listed
+plugin that is present and inactive, so every machine cleans itself up on its next launch after
+pulling (one "Repaired" warning, then "Removed plugin"). It never deletes an active plugin, so a
+name re-added to the config is safe even if it stays on the list. Entries are free once a machine
+is clean; leave them.
 
 **Inactive does not always mean unwanted.** A plugin gated behind an opt-in extra or a `local.lua`
 flag is legitimately inactive on machines that don't enable it — `obsidian.nvim` and `blink.compat`

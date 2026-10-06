@@ -25,6 +25,8 @@ Unified Neovim configuration for all machines.
 │   │   └── plugins/        # Personal plugins — every .lua here is auto-loaded
 │   └── whipsmart/          # Internal framework
 │       ├── health.lua      # :checkhealth whipsmart
+│       ├── lazy.lua        # lazy-loading helper
+│       ├── pack_removed.lua # dropped plugins, deleted on every machine at startup
 │       └── plugins/        # Opt-in extras — loaded only when required explicitly
 │           ├── debug.lua   # DAP / Go debugging
 │           └── ...         # lint, markdown, neo-tree
@@ -98,32 +100,16 @@ downloaded nor started on that machine. A server may be named either way — `lu
 `lua-language-server` both work, and both skip the download *and* the activation. Standalone
 tools are named by their Mason package (`stylua`).
 
-## Pending per-machine step: catppuccin rename (2026-07-25)
+## Removed plugins clean themselves up (2026-10-06)
 
-Catppuccin is now installed with an explicit `name = 'catppuccin'`. Previously vim.pack derived
-its name from the last path segment of `catppuccin/nvim` and installed it as a plugin called
-`nvim`. On first launch after pulling this change, each machine clones catppuccin fresh under the
-new name and leaves the old directory orphaned:
+The old per-machine step for the catppuccin rename (`:lua vim.pack.del { 'nvim' }` on every
+machine) is no longer needed. `lua/whipsmart/pack_removed.lua` lists plugins this config has
+dropped — currently `nvim` (the pre-rename catppuccin clone) and `mason-lspconfig.nvim` — and
+deletes any that are present and inactive at `VimEnter`. Each machine cleans itself up on its
+first launch after pulling; expect one "Repaired corrupted lock data" warning followed by
+"Removed plugin". The lockfile should show no diff afterwards.
 
-```vim
-:lua vim.pack.del { 'nvim' }
-```
-
-The lockfile already carries the corrected entry, so nothing else is needed. Delete this section
-once every machine below is done.
-
-- [x] hecate
-- [ ] roci
-- [ ] orca
-- [ ] cygnus
-- [ ] tau
-
-Machines that never had catppuccin installed have nothing to clean up. Running the command there
-is harmless: `vim.pack.del` resolves every name up front and aborts with
-``Plugin `nvim` is not installed`` before deleting anything, so a bad name in the list can't take
-a good one with it.
-
-While you're there: `tokyonight.nvim` is now inactive on every machine (the colorscheme default
+`tokyonight.nvim` is now inactive on every machine (the colorscheme default
 moved into `init.lua`). Leave it installed unless you want the disk back — see
 [CLAUDE.md](CLAUDE.md) under *Removing a plugin*.
 

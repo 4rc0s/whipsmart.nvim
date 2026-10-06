@@ -90,7 +90,8 @@ Whipsmart also exposes the raw `vim.pack` primitives:
 - **`<leader>pi`**: **Inspect** (View current plugin status offline).
 - **`:lua vim.pack.del { 'name' }`**: Remove a plugin from disk and from the lockfile. Removing a
   plugin's config leaves it on disk as *inactive* — see [CLAUDE.md](CLAUDE.md) under *Removing a
-  plugin* for how to list orphans before deleting them.
+  plugin* for how to list orphans before deleting them. This only cleans the current machine; to
+  drop a plugin everywhere, also add its name to `lua/whipsmart/pack_removed.lua`.
 - **`:w`**: Inside the update buffer, write to disk to apply changes. Then `:restart` to load the
   new plugin code.
 
@@ -133,6 +134,8 @@ See [CLAUDE.md](CLAUDE.md) for full details on managing lockfile workflows and r
     │   └── python_tools.lua # Python indent/tooling
     ├── whipsmart/
     │   ├── health.lua      # :checkhealth whipsmart
+    │   ├── lazy.lua        # Lazy-loading helper (stub commands/keymaps)
+    │   ├── pack_removed.lua # Plugins dropped from the config, deleted on every machine
     │   └── plugins/        # Opt-in extras (not loaded by default):
     │                       #   debug, lint, markdown, neo-tree
     └── custom/

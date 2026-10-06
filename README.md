@@ -85,8 +85,8 @@ Whipsmart also exposes the raw `vim.pack` primitives:
 - **`<leader>ps`**: **Sync** (`vim.pack.update()` — move plugins to the newest revision matching
   each spec's `version`, then rewrite the lockfile).
 - **`<leader>pr`**: **Restore** (`vim.pack.update(nil, { target = 'lockfile' })` — move plugins to
-  the revisions recorded in the lockfile. Use after pulling this config on another machine, or to
-  revert a bad update).
+  the revisions recorded in the lockfile. Use after pulling this config on another machine — in a
+  Neovim started *after* the pull, see below — or to revert a bad update).
 - **`<leader>pi`**: **Inspect** (View current plugin status offline).
 - **`:lua vim.pack.del { 'name' }`**: Remove a plugin from disk and from the lockfile. Removing a
   plugin's config leaves it on disk as *inactive* — see [CLAUDE.md](CLAUDE.md) under *Removing a

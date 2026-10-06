@@ -220,6 +220,8 @@ do
   --  <leader>ps fetches the newest revision matching each spec's `version` and rewrites the lockfile.
   --  <leader>pr goes the other way: it moves plugins to the revisions already recorded in the
   --  lockfile. Use it after pulling this config on another machine, or to revert a bad update.
+  --  After a pull, restart Neovim first: vim.pack reads the lockfile once per session, so an older
+  --  session would restore the pre-pull revisions and write them back over the pulled file.
   vim.keymap.set('n', '<leader>ps', vim.pack.update, { desc = '[P]ackage [S]ync (update to newest)' })
   vim.keymap.set('n', '<leader>pr', function() vim.pack.update(nil, { target = 'lockfile' }) end, { desc = '[P]ackage [R]estore (sync to lockfile)' })
   vim.keymap.set('n', '<leader>pi', function() vim.pack.update(nil, { offline = true }) end, { desc = '[P]ackage [I]nspect' })

@@ -41,7 +41,11 @@ Plugins that are in the lockfile but missing from disk are installed at the lock
 startup, so `<leader>pr` is only needed for plugins already present at a different revision.
 The reverse does not hold: a plugin directory with no lockfile entry gets its entry *rebuilt*, so
 removing a plugin needs `lua/whipsmart/pack_removed.lua` — see "Removing a plugin" below.
-After confirming an update, `:restart` to load the new code.
+After confirming an update, `:restart` to load the new code — but if it printed errors, read
+`:messages` first, because nothing else keeps them and the restart throws them away. Some errors
+are expected: the update swaps plugin files under a session still running the old Lua (the
+nvim-treesitter `PackChanged` hook even runs `:TSUpdate` that way), and those clear on restart.
+Errors that come back after the restart are the real ones.
 
 **Restart Neovim after every `git pull`, before any package command.** vim.pack reads the lockfile
 once per session, the first time it needs it, and every write (`<leader>ps`, `<leader>pr`,

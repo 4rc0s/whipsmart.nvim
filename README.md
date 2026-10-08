@@ -94,7 +94,9 @@ Whipsmart also exposes the raw `vim.pack` primitives:
   plugin* for how to list orphans before deleting them. This only cleans the current machine; to
   drop a plugin everywhere, also add its name to `lua/whipsmart/pack_removed.lua`.
 - **`:w`**: Inside the update buffer, write to disk to apply changes. Then `:restart` to load the
-  new plugin code.
+  new plugin code — if the update printed errors, read `:messages` first; the restart discards
+  them. Errors that are gone after the restart came from swapping plugins under a running
+  session; ones that come back are real.
 
 Inside the update buffer, `gra` offers per-plugin code actions (update / skip / delete), `K` shows
 details for the change under the cursor, `gO` lists the buffer structure, and `]]` / `[[` jump
@@ -115,6 +117,7 @@ After pulling a lockfile someone else updated, **quit or `:restart` every runnin
 run **`<leader>pr`** — not `<leader>ps`, which would fetch the newest revisions and overwrite the
 lockfile you just pulled. Neovim reads the lockfile once per session, so a session that was open
 during the pull would restore the old revisions and write them back over the ones you pulled.
+Confirm with `:w`, check `:messages` if anything went red, then `:restart`.
 
 See [CLAUDE.md](CLAUDE.md) for full details on managing lockfile workflows and resolving conflicts.
 

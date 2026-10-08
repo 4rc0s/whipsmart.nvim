@@ -54,7 +54,8 @@ It is loaded at the very end of Section 1 in `init.lua`, after every default is 
 vim.g.have_nerd_font = false                          -- terminal without a Nerd Font
 vim.g.whipsmart_colorscheme = 'tokyonight-night'      -- 'tokyonight-*' or 'catppuccin-*'
 vim.o.scrolloff = 15                                  -- big monitor
-vim.g.python3_host_prog = '/usr/local/bin/python3'
+vim.g.loaded_python3_provider = nil                   -- re-enable the Python provider (off by default)
+vim.g.python3_host_prog = '/usr/local/bin/python3'   -- ...using an interpreter with pynvim
 vim.g.disabled_lsp_servers = { 'lua_ls' }             -- skip on low-resource machines
 ```
 

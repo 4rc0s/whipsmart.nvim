@@ -50,11 +50,12 @@ do
   -- Set to true if you have a Nerd Font installed and selected in the terminal
   vim.g.have_nerd_font = true
 
-  -- This config uses no remote plugins, so these host providers only produce :checkhealth
-  -- warnings. Python stays enabled so a machine can set python3_host_prog in local.lua; until
-  -- that python has pynvim installed, :checkhealth still warns about it.
+  -- This config uses no remote plugins, so these host providers only produce :checkhealth noise.
+  -- Python's is worse: without pynvim it aborts the vim.provider check with an error. A machine
+  -- that needs it sets `vim.g.loaded_python3_provider = nil` (and python3_host_prog) in local.lua.
   vim.g.loaded_node_provider = 0
   vim.g.loaded_perl_provider = 0
+  vim.g.loaded_python3_provider = 0
   vim.g.loaded_ruby_provider = 0
 
   -- Colorscheme to apply. Whichever module owns the matching name prefix installs and applies it;

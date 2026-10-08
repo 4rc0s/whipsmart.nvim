@@ -21,7 +21,8 @@
 -- Example: larger scroll offset on a big monitor
 -- vim.o.scrolloff = 15
 
--- Example: use a local Python interpreter
+-- Example: re-enable the Python provider (init.lua disables it) with a local interpreter that has pynvim
+-- vim.g.loaded_python3_provider = nil
 -- vim.g.python3_host_prog = '/usr/local/bin/python3'
 
 -- Opt-in extras do NOT go here. This file runs in Section 1, before the core plugins load, so an

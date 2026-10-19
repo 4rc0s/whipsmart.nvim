@@ -80,8 +80,9 @@ require('lazydev').setup {
     { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
     { path = '${3rd}/busted/library', words = { 'describe%s*%(' } },
   },
-  -- A project shipping its own .luarc.json owns its LuaLS setup; stay out of the way.
-  enabled = function(root_dir) return not vim.uv.fs_stat(root_dir .. '/.luarc.json') end,
+  -- A project shipping its own .luarc.json(c) owns its LuaLS setup; stay out of the way. Keep
+  -- this in step with the matching check in lua_ls's on_init below.
+  enabled = function(root_dir) return not (vim.uv.fs_stat(root_dir .. '/.luarc.json') or vim.uv.fs_stat(root_dir .. '/.luarc.jsonc')) end,
 }
 
 -- Mason-managed language servers. One row per server:

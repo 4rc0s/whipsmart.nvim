@@ -441,7 +441,7 @@ make sense as fresh commits (citing the upstream hash in the commit message).
 
 ### Reviewing upstream kickstart.nvim
 
-**Last reviewed:** kickstart commit `80743df` (2026-09-14). Start the next review from
+**Last reviewed:** kickstart commit `8e35dbe` (2026-10-03). Start the next review from
 this watermark — because ports are fresh commits (never merges), `git merge-base` stays
 frozen at the original fork point (`cfdc17b`) and would re-surface already-ported commits.
 
@@ -462,6 +462,10 @@ gitsigns.nvim's own recommended keymaps. Everything else in the window (CI check
 alpine install recipe, a `ts_ls`→`tsc` example swap, custom-plugins docs wording, a
 treesitter buf-validity/`language.add` reorder we already have in different order) didn't
 apply or is superseded by our own conventions.
+
+The `80743df..8e35dbe` window held only `edc6ed3` (their #2169), which moves the
+`nvim_buf_is_valid` check ahead of `language.add` in `treesitter_try_attach`. Our
+`lua/plugins/treesitter.lua` already checks in that order, so there was nothing to port.
 
 Workflow:
 ```bash

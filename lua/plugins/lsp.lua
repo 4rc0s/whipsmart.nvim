@@ -129,12 +129,13 @@ local lsp_servers = {
       before_init = function(_, config)
         local root_dir = config.root_dir
         if root_dir then
-          local venv_path = root_dir .. '/.venv'
-          if vim.fn.isdirectory(venv_path) == 1 then
-            local python_path = venv_path .. '/bin/python'
+          -- `.venv` is the uv/poetry default; `venv` is what `python3 -m venv venv` makes.
+          for _, venv in ipairs { '.venv', 'venv' } do
+            local python_path = root_dir .. '/' .. venv .. '/bin/python'
             if vim.fn.filereadable(python_path) == 1 then
               config.settings.python = config.settings.python or {}
               config.settings.python.pythonPath = python_path
+              break
             end
           end
         end
